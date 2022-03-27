@@ -1,0 +1,50 @@
+http://192.168.178.43:8088/tally
+
+<!doctype html>
+<html>
+  <head>
+    <title>vMix Tally Lights</title>
+    <link href="/stylesheet.css" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  </head>
+  <body>
+    <script src="/jquery.js" type="text/javascript"></script>
+<div class="menu">
+<a href="/"><img src="/buttons/?type=shortcuts" class="menuButton" alt="Shortcuts" /></a>
+<a href="/controller"><img src="/buttons/?type=controller" class="menuButton" alt="Controller" /></a>
+<a href="/tally"><img src="/buttons/?type=tallyselected" class="menuButton" alt="Tally" /></a>
+<a href="/titles"><img src="/buttons/?type=titles" class="menuButton" alt="Titles" /></a>
+</div>
+<a href="/tally/?key=bf3928a3-cc06-4f79-b0b2-47639d9a405f" class="tallyLink">CAM1 links 20x</a>
+<a href="/tally/?key=0e1c08d9-e872-4a78-ac99-2d35b2b0ada5" class="tallyLink">CAM2 rechts 30x</a>
+<a href="/tally/?key=80a05fcf-066b-43cf-a4ad-fd183a5b39ed" class="tallyLink">Overlay (O)</a>
+<a href="/tally/?key=fca608b5-1e62-4822-9a1b-c916a9eab746" class="tallyLink">Beamer-PC (P)</a>
+<a href="/tally/?key=f9dd3663-a0ec-407a-9705-cedb8ee84e64" class="tallyLink">Beamer-PC gedimmt(F)</a>
+<a href="/tally/?key=db55107f-9247-4336-983f-9a931c41380f" class="tallyLink">MASTER-Audio vom X32 vom Bus7+8 (cia Card 31+32)</a>
+<a href="/tally/?key=a2a077c1-459d-4085-a70a-6d3d245c5417" class="tallyLink">AUX-Audio vom X32 vom Bus15+16 (cia Card 23+24)</a>
+<a href="/tally/?key=868460f3-2cdd-47be-bf4d-a1bdcd028eb5" class="tallyLink">topleft_klein.png</a>
+<a href="/tally/?key=4b506ddb-2da1-403d-8a57-68db1b113c3d" class="tallyLink">Bauchbinde Text</a>
+<a href="/tally/?key=d26a26a9-9481-44b8-9ded-16e644ae57fd" class="tallyLink">SplitScreen</a>
+<a href="/tally/?key=7267c400-f250-41c9-9ad5-cfb3f663fd09" class="tallyLink">Call Hans-Martin Richter</a>
+<a href="/tally/?key=5038428e-2a36-447c-86ee-d0725a0ae3ba" class="tallyLink">PictureInPicture</a>
+<a href="/tally/?key=15472154-0f08-4f9b-bf58-7657483334a1" class="tallyLink">NDI BASTISIPAD (NDI HX Camera)</a>
+<a href="/tally/?key=9955de60-a29e-4fc1-b5cf-1bb15c55c059" class="tallyLink">Call Monitor</a>
+<a href="/tally/?key=31b1cb36-b797-451b-a247-0ccbc2f10bf0" class="tallyLink">hinweis.gtzip</a>
+
+  </body>
+</html>
+
+
+http://192.168.178.43:8088/tally/?key=bf3928a3-cc06-4f79-b0b2-47639d9a405f
+
+
+
+
+http://192.168.178.43:8088/tally/?key=0e1c08d9-e872-4a78-ac99-2d35b2b0ada5
+http://192.168.178.43:8088/tallyupdate/?key=0e1c08d9-e872-4a78-ac99-2d35b2b0ada5&state=%23ff0000&_=1613919931754
+
+tallyChange("#ff0000"); ON
+
+tallyChange("#deac01"); PREVIEW
+
+tallyChange("#1a3c75"); WAIT

@@ -1,8 +1,8 @@
-#include "OtaSetup.h"
+#include "MyOta.h"
 #include <Arduino.h>
 #include <ArduinoOTA.h>
 
-void myOtaSetup(char* esp_hostname, char* ota_password) {
+void MyOta::setup(char* esp_hostname, char* ota_password) {
   // Port defaults to 8266
   // ArduinoOTA.setPort(8266);
 
@@ -51,7 +51,7 @@ void myOtaSetup(char* esp_hostname, char* ota_password) {
   ArduinoOTA.begin();
 }
 
-void myOtaLoop() {
+void MyOta::loop() {
   //Serial.println("myOtaLoop");
   ArduinoOTA.handle();
 }

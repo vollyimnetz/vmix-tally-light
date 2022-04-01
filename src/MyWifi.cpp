@@ -1,4 +1,4 @@
-#include "WifiSetup.h"
+#include "MyWifi.h"
 
 #include <Arduino.h>
 #include <DNSServer.h>
@@ -6,13 +6,14 @@
 #include <WiFiManager.h>          //https://github.com/tzapu/WiFiManager
 #include <Ticker.h>
 
+
 void wifiTick() {
   //toggle state
   int state = digitalRead(LED_BUILTIN);  // get the current state of GPIO1 pin
   digitalWrite(LED_BUILTIN, !state);     // set pin to the opposite state
 }
 
-void myWifiSetup() {
+void MyWifi::setup() {
   //set led pin as output
   pinMode(LED_BUILTIN, OUTPUT);
   // start ticker with 0.5 because we start in AP mode and try to connect

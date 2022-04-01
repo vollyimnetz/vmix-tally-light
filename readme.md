@@ -22,8 +22,6 @@ Visit your router settings to get the IP of the board in your local network. If 
 * The board will restart every 
 
 
-##
-
 # Upload of Tally Light config-webpage to flash-memory
 
 - Click the PIO icon at the left side bar. The project tasks should open.
@@ -32,3 +30,11 @@ Visit your router settings to get the IP of the board in your local network. If 
 - Finally, click `Upload Filesystem Image`.
 
 https://randomnerdtutorials.com/esp8266-nodemcu-vs-code-platformio-littlefs/
+
+
+# vmix fake tally - php server
+
+Run with
+```
+php -S 0.0.0.0:80
+```

@@ -21,12 +21,17 @@
           </p>
 
           <p class="form-group">
+            <label for="form_value_mode">Modus</label>
+            <input  id="form_value_mode" class="form-control" type="text" v-model="mode">
+          </p>
+
+          <p class="form-group">
             <label for="form_value_host">VMix Host-Adresse</label>
             <input  id="form_value_host" class="form-control" type="text" v-model="host">
           </p>
           <p class="form-group">
-            <label for="form_value_host">Key der Kamera/des Kanals</label>
-            <input  id="form_value_host" class="form-control" type="text" v-model="key">
+            <label for="form_value_ip">Key der Kamera/des Kanals</label>
+            <input  id="form_value_ip" class="form-control" type="text" v-model="key">
           </p>
 
           <div>
@@ -45,6 +50,7 @@ import axios from 'axios';
 export default {
   data: () =>({
     loading : false,
+    mode: 1,
     host: null,
     key: null,
     ip: null,
@@ -108,6 +114,7 @@ export default {
       axios(request)
         .then((response) => {
           console.log('readsettings',response.data);
+          this.mode = response.data.mode;
           this.host = response.data.host;
           this.key = response.data.key;
           this.ip = response.data.ip;
@@ -126,6 +133,7 @@ export default {
         url: '/api/writesettings',
         method: 'GET',
         params: {
+          mode: this.mode,
           host: this.host,
           key: this.key,
         },
@@ -136,6 +144,7 @@ export default {
       };
       axios(request)
         .then((response) => {
+          this.mode = response.data.mode;
           this.host = response.data.host;
           this.key = response.data.key;
           this.ip = response.data.ip;

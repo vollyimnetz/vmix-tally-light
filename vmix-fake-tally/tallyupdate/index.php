@@ -11,7 +11,7 @@ $stateColor = getChannelColor($_REQUEST['key']);
 $oldColor = $stateColor;
 if(!empty($_REQUEST['state'])) $oldColor = $_REQUEST['state'];
 
-$durationInSeconds = 5;//how long should the tally system wait for state changes
+$durationInSeconds = 10;//how long should the tally system wait for state changes
 $timeoutInSeconds = .5;//how often will the system check for state changes
 
 $targetCount = 1/$timeoutInSeconds * $durationInSeconds;

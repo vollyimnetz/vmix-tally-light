@@ -1,33 +1,22 @@
 #include "TallySystem.h"
-#include "tallyHelper.h"
+#include "TallyLight.h"
 
 #include <AsyncHTTPRequest_Generic.h>
 #include <ESP8266WebServer.h>
-#include <FastLED.h>    //for LED
 #include <LittleFS.h>   // Include the LittleFS library
 
 
 ESP8266WebServer server(80);
+
+//#define _ASYNC_HTTP_LOGLEVEL_     2
 AsyncHTTPRequest tallyRequest;
 
-#define FASTLED_FORCE_SOFTWARE_SPI//for LED
-#define FASTLED_INTERNAL//disable pragma message
-
-//FastLED
-#define LED_STRIP_NUM_LEDS 5// How many leds in your strip?
-#define LED_STRIP_DATA_PIN D5
-#define LED_STRIP_TYPE NEOPIXEL
-int ledBrightness = 255;
-CRGB ledStripe[LED_STRIP_NUM_LEDS];// Define the array of leds
-unsigned int ledStrip_R = 0;
-unsigned int ledStrip_G = 0;
-unsigned int ledStrip_B = 0;
 
 bool runTally = true;
 bool hasOpenRequest = false;
 String currentValue = "000000";
+TallyLight light;
 
-#define _ASYNC_HTTP_LOGLEVEL_     2
 void sendTallyRequest(String url) {
     static bool requestOpenResult;
 
@@ -46,100 +35,15 @@ void sendTallyRequest(String url) {
             tallyRequest.send();
             Serial.println("Open request: "+url);
         } else {
+            Serial.println("Can't send - bad request");
+            delay(5000);//wait for 5 seconds
             hasOpenRequest = false;
-            Serial.println("Can't send bad request");
         }
     } else {
         hasOpenRequest = false;
-        Serial.println("Can't send request");
+        //Serial.println("Can't send request");
     }
 }
-
-void setTally(String value) {
-    ledBrightness = 255;
-    value.toUpperCase();
-    ledStrip_R = hexcolorToInt( value.charAt(0), value.charAt(1) );
-    ledStrip_G = hexcolorToInt( value.charAt(2), value.charAt(3) );
-    ledStrip_B = hexcolorToInt( value.charAt(4), value.charAt(5) );
-    //Serial.print('R: ');Serial.println(ledStrip_R);
-    //Serial.print('G: ');Serial.println(ledStrip_G);
-    //Serial.print('B: ');Serial.println(ledStrip_B);
-    for(int i = 0; i < LED_STRIP_NUM_LEDS; i++) {
-        ledStripe[i].setRGB(ledStrip_R, ledStrip_G, ledStrip_B);
-    }
-    FastLED.setBrightness(ledBrightness);
-    FastLED.show();
-}
-
-
-void doWarning(String value) {
-    ledBrightness = 255;
-    Serial.println("SHOW WARNING");
-    for(int i = 0; i < LED_STRIP_NUM_LEDS; i++) {
-        ledStripe[i].setRGB(0, 0, 0);
-    }
-
-    value.toUpperCase();
-    ledStrip_R = hexcolorToInt( value.charAt(0), value.charAt(1) );
-    ledStrip_G = hexcolorToInt( value.charAt(2), value.charAt(3) );
-    ledStrip_B = hexcolorToInt( value.charAt(4), value.charAt(5) );
-    
-    ledStripe[ LED_STRIP_NUM_LEDS-1 ].setRGB(ledStrip_R, ledStrip_G, ledStrip_B);
-    FastLED.setBrightness(ledBrightness);
-    FastLED.show();
-    FastLED.show();
-    FastLED.show();
-}
-
-void doMinor(String value) {
-    ledBrightness = 64;
-    Serial.println("SHOW WARNING");
-    for(int i = 0; i < LED_STRIP_NUM_LEDS; i++) {
-        ledStripe[i].setRGB(0, 0, 0);
-    }
-
-    value.toUpperCase();
-    ledStrip_R = hexcolorToInt( value.charAt(0), value.charAt(1) );
-    ledStrip_G = hexcolorToInt( value.charAt(2), value.charAt(3) );
-    ledStrip_B = hexcolorToInt( value.charAt(4), value.charAt(5) );
-    
-    ledStripe[ 0 ].setRGB(ledStrip_R, ledStrip_G, ledStrip_B);
-    FastLED.setBrightness(ledBrightness);
-    FastLED.show();
-    FastLED.show();
-    FastLED.show();
-}
-
-
-void doTallyResponseCallback(void* optParm, AsyncHTTPRequest* request, int readyState) {
-    (void) optParm;
-    
-    if (readyState == readyStateDone) {
-        String result = request->responseText();
-        Serial.printf("ReadyState: %i \n", readyState);
-        Serial.println("Tally content: "+ result );
-        Serial.printf("Tally length: %i \n", result.length() );
-        if(result.length()==23) {
-            Serial.print("Tally value found: ");
-            Serial.println( result );
-            Serial.println( result.substring(14,20) );
-            currentValue = result.substring(14,20);
-            if(currentValue.equals("ff0000")) {
-                setTally(currentValue);
-            } else {
-                doMinor(currentValue);
-            }
-        } else {
-            currentValue = "000000";
-            doWarning("ff0000");
-            Serial.println("UNKOWN CONTENT");
-            Serial.println(result);
-        }
-        request->setDebug(false);
-        hasOpenRequest = false;
-    }
-}
-
 
 //tell the client what to do with data
 bool webserver_loadFromLittleFS(String path) {
@@ -203,13 +107,20 @@ TallySystem::TallySystem(char* settings_password) {
     this->settings_password = settings_password;
 }
 
+
+
 void TallySystem::setup() {
-    tallyRequest.onReadyStateChange( doTallyResponseCallback );
+    tallyRequest.onReadyStateChange( [this](void* optParm, AsyncHTTPRequest* request, int readyState) {
+        (void) optParm;
+        if (readyState == readyStateDone) {
+            String result = request->responseText();
+            this->handleResult(result);
+        }
+        request->setDebug(false);
+        hasOpenRequest = false;
+    } );
 
-    //fastLED LED-Strip setup
-    FastLED.addLeds<LED_STRIP_TYPE, LED_STRIP_DATA_PIN>(ledStripe, LED_STRIP_NUM_LEDS);
-    FastLED.setBrightness(ledBrightness);
-
+    light = TallyLight();
 
     server.on("/api/restart",[]() { 
         ESP.restart();
@@ -262,4 +173,36 @@ void TallySystem::loop() {
     }
     
     server.handleClient();
+}
+
+void TallySystem::handleResult(String result) {
+    if(result.length()==23) {
+        currentValue = result.substring(14,20);
+        Serial.println("Tally value found: "+currentValue);
+
+        switch(this->cfg.mode) {
+            case 2:
+                if(currentValue.equals("ff0000")) {
+                    light.setColor_full(currentValue);
+                } else {
+                    light.setColor_full("000000");
+                }
+                break;
+            case 1:
+                if(currentValue.equals("ff0000")) {
+                    light.setColor_full(currentValue);
+                } else {
+                    light.setColor_lastOnly(currentValue);
+                }
+                break;
+            default:
+                light.setColor_full(currentValue);
+                break;
+        }
+    } else {
+        currentValue = "000000";
+        light.setColor_firstOnly("ff0000");
+        Serial.println("UNKOWN CONTENT");
+        Serial.println(result);
+    }
 }

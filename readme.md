@@ -16,7 +16,7 @@ The board will create an public access point named `EspAutoWifi` for setup the c
 
 The system will reconnect to the specified WLAN. The board should now be connected. 
 
-## Setup the VMix Settings
+## Setup the VMix Settings on the board
 Visit your router settings to get the IP of the board in your local network. If the board is still connected to platformio you may also read the IP from the serial monitor (something like `STA IP Address: ...`).
 * Navigate to the board in your Browser. You should see a page with the headline "TallyConfig".
 * The board will restart every 
@@ -33,8 +33,12 @@ https://randomnerdtutorials.com/esp8266-nodemcu-vs-code-platformio-littlefs/
 
 
 # vmix fake tally - php server
+You can use http://vmix-fake-tally.totalmedial.de to test your board.
 
-Run with
-```
-php -S 0.0.0.0:80
-```
+Use the following settings in on the config-page (see "Setup the VMix Settings on the board").
+* Insert the Password defined in settings.h
+* Settings
+    * Mode: 1
+    * VMix Host-Adresse: http://vmix-fake-tally.totalmedial.de
+    * Key der Kamera/des Kanals: bf3928a3-cc06-4f79-b0b2-47639d9a405f
+* click on "RESTART System"

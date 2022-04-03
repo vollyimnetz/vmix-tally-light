@@ -1,14 +1,25 @@
 <?php
-include_once __DIR__.'/../state.php';
+include_once __DIR__.'/../helper.php';
 
-if( empty($_REQUEST['key']) || ( !empty($_REQUEST['key']) && empty($fakeState[ $_REQUEST['key'] ]) ) ) {
+
+if(empty($_REQUEST['key']) || ( !empty($_REQUEST['key']) && empty(Channels[ $_REQUEST['key'] ]) ) ) {
 	echo 'noting found';
 	die();
 }
 
-$current = $fakeState[ $_REQUEST['key'] ];
-if(!empty($_REQUEST['state']) && $_REQUEST['state'] === $current['color']) {
-	sleep(5);//sleep for 3 seconds
+$stateColor = getChannelColor($_REQUEST['key']);
+$oldColor = $stateColor;
+if(!empty($_REQUEST['state'])) $oldColor = $_REQUEST['state'];
+
+$durationInSeconds = 5;//how long should the tally system wait for state changes
+$timeoutInSeconds = .5;//how often will the system check for state changes
+
+$targetCount = 1/$timeoutInSeconds * $durationInSeconds;
+$count = 0;
+while($stateColor === $oldColor && $count < $targetCount) {
+	usleep($timeoutInSeconds * 1000000);
+	$count++;
+	$stateColor = getChannelColor($_REQUEST['key']);
 }
-echo 'tallyChange("'.$current['color'].'");';
+echo 'tallyChange("'.$stateColor.'");';
 die();

@@ -24,26 +24,33 @@ unsigned int ledStrip_G = 0;
 unsigned int ledStrip_B = 0;
 
 bool runTally = true;
-bool isRequestOpen = false;
+bool hasOpenRequest = false;
 String currentValue = "000000";
 
-
+#define _ASYNC_HTTP_LOGLEVEL_     2
 void sendTallyRequest(String url) {
     static bool requestOpenResult;
+
+    if(hasOpenRequest) {
+        Serial.println("Skip cause request is open");
+        return;
+    } 
+    hasOpenRequest = true;
     
+    url = url+"&state=%23"+currentValue;
     if (tallyRequest.readyState() == readyStateUnsent || tallyRequest.readyState() == readyStateDone) {
-        //requestOpenResult = tallyRequest.open("GET", "http://worldtimeapi.org/api/timezone/Europe/London.txt");
         requestOpenResult = tallyRequest.open("GET", url.c_str());
         
         if (requestOpenResult) {
-            isRequestOpen = true;
             // Only send() if open() returns true, or crash
             tallyRequest.send();
             Serial.println("Open request: "+url);
         } else {
+            hasOpenRequest = false;
             Serial.println("Can't send bad request");
         }
     } else {
+        hasOpenRequest = false;
         Serial.println("Can't send request");
     }
 }
@@ -109,7 +116,9 @@ void doTallyResponseCallback(void* optParm, AsyncHTTPRequest* request, int ready
     
     if (readyState == readyStateDone) {
         String result = request->responseText();
-        Serial.println( result );
+        Serial.printf("ReadyState: %i \n", readyState);
+        Serial.println("Tally content: "+ result );
+        Serial.printf("Tally length: %i \n", result.length() );
         if(result.length()==23) {
             Serial.print("Tally value found: ");
             Serial.println( result );
@@ -123,13 +132,11 @@ void doTallyResponseCallback(void* optParm, AsyncHTTPRequest* request, int ready
         } else {
             currentValue = "000000";
             doWarning("ff0000");
-            delay(10000);
             Serial.println("UNKOWN CONTENT");
             Serial.println(result);
         }
-        
-        isRequestOpen = false;
         request->setDebug(false);
+        hasOpenRequest = false;
     }
 }
 
@@ -249,8 +256,8 @@ void TallySystem::setup() {
 
 void TallySystem::loop() {
     
-    if(runTally && !isRequestOpen) {
-        String url = String(this->cfg.tallyHost)+"/tallyupdate/?key="+String(this->cfg.tallyKey)+"&state=%23"+currentValue;
+    if(runTally && !hasOpenRequest) {
+        String url = String(this->cfg.tallyHost)+"/tallyupdate/?key="+String(this->cfg.tallyKey);
         sendTallyRequest(url);
     }
     

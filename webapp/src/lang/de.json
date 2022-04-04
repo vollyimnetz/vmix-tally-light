@@ -1,0 +1,22 @@
+{
+    "btn_stop" : "STOPPE Tally Anfragen",
+    "btn_start" : "STARTE Tally Anfragen",
+    "btn_restart" : "NEUSTART",
+    "headline_settings" : "Einstellungen",
+    "label_password" : "Passwort für das Lesen und Schreiben der Einstellungen",
+    "placeholder_password" : "OTA Password",
+    "btn_load_settings" : "Laden",
+    "label_board_ip" : "Eigene IP",
+    "label_mode" : "Modus",
+    "mode_0" : "Standard - alles Vollfarbe",
+    "mode_1" : "Variante 1 - Live=Vollfarbe, der Rest dezent",
+    "mode_2" : "Variante 2 - Live=Vollfarbe, der Rest schwarz",
+    "mode_3" : "Variante 3 - Live=Vollfarbe (grün), der Rest schwarz",
+    "label_host" : "VMix Host-Adresse",
+    "label_key" : "Key der Kamera/des Kanals",
+    "btn_settings_reload" : "Einstellungen neuladen",
+    "btn_save_and_restart" : "Speichere und Neustart",
+    "alert_error_on_read_settings" : "Fehler bei der Anfrage",
+    "alert_error_on_write_settings" : "Fehler bei der Anfrage",
+    "last" : ""
+}

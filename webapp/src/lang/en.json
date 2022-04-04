@@ -1,0 +1,22 @@
+{
+    "btn_stop" : "STOP Tally Requests",
+    "btn_start" : "START Tally Requests",
+    "btn_restart" : "RESTART System",
+    "headline_settings" : "Settings",
+    "label_password" : "Password for reading and writing settings",
+    "placeholder_password" : "OTA Password",
+    "btn_load_settings" : "Load",
+    "label_board_ip" : "Board IP",
+    "label_mode" : "Mode",
+    "mode_0" : "Standard - all full colour",
+    "mode_1" : "Variant 1 - Live=full colour, the rest minimal",
+    "mode_2" : "Variant 2 - Live=full colour, the rest black",
+    "mode_3" : "Variant 3 - Live=full colour (green), the rest black",
+    "label_host" : "VMix Host Address",
+    "label_key" : "Key of the camera/channel",
+    "btn_settings_reload" : "Reload settings",
+    "btn_save_and_restart" : "Save and restart",
+    "alert_error_on_read_settings" : "Error on request",
+    "alert_error_on_write_settings" : "Error on request",
+    "last" : ""
+}

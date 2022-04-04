@@ -18,8 +18,8 @@ The system will reconnect to the specified WLAN. The board should now be connect
 
 ## Setup the VMix Settings on the board
 Visit your router settings to get the IP of the board in your local network. If the board is still connected to platformio you may also read the IP from the serial monitor (something like `STA IP Address: ...`).
-* Navigate to the board in your Browser. You should see a page with the headline "TallyConfig".
-* The board will restart every 
+* Navigate to the IP-address of your board in the Browser. You should see a page with the headline "TallyConfig".
+* Insert the ota-password in the field to be able to read/write the settings.
 
 
 # Upload of Tally Light config-webpage to flash-memory
@@ -42,3 +42,5 @@ Use the following settings in on the config-page (see "Setup the VMix Settings o
     * VMix Host-Adresse: http://vmix-fake-tally.totalmedial.de
     * Key der Kamera/des Kanals: bf3928a3-cc06-4f79-b0b2-47639d9a405f
 * click on "RESTART System"
+
+ATTENTION: If you think about hosting the vmix-fake-tally yourself, do it on a proper server. The `php -S 0.0.0.0:80` command may serve the code BUT it will not send the proper end code after an http-response. So the board will not behave properly.

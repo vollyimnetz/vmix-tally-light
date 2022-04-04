@@ -123,6 +123,7 @@ void TallySystem::setup() {
     light = TallyLight();
 
     server.on("/api/restart",[]() { 
+        light.setColor_full("000000");
         ESP.restart();
         return;
     });
@@ -181,6 +182,13 @@ void TallySystem::handleResult(String result) {
         Serial.println("Tally value found: "+currentValue);
 
         switch(this->cfg.mode) {
+            case 3:
+                if(currentValue.equals("ff0000")) {
+                    light.setColor_full("00ff00");
+                } else {
+                    light.setColor_full("000000");
+                }
+                break;
             case 2:
                 if(currentValue.equals("ff0000")) {
                     light.setColor_full(currentValue);

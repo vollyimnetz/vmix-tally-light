@@ -132,6 +132,7 @@ export default {
       },5000);
     },
     readSettings() {
+      if(this.secret.length<1) return;
       if(this.loading) return;
       this.loading = true;
       let request = {

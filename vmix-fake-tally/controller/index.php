@@ -3,7 +3,7 @@ include_once __DIR__.'/../helper.php';
 
 if(!empty($_GET['reset'])) {
   deleteFile();
-  header('location: http://'.$_SERVER['SERVER_NAME'].BASE_URL.'/controll');
+  header('location: http://'.$_SERVER['SERVER_NAME'].BASE_URL.'/controller');
   exit();
 }
 if(!empty($_GET['id']) && !empty($_GET['setState'])) {

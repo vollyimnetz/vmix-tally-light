@@ -1,7 +1,5 @@
 <?php 
 include_once __DIR__.'/helper.php';
-
-
 ?>
 <!doctype html>
 <html>
@@ -13,7 +11,7 @@ include_once __DIR__.'/helper.php';
   </head>
   <body>
     <div class="container mt-3">
-      <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL ?>controll">Kontrolle</a>
+      <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL ?>controller">Kontrolle</a>
       <h2>This is a fake vmix tally server.</h2>
       <?php foreach(Channels as $key=>$name) : ?>
         <div>

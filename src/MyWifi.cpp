@@ -6,19 +6,16 @@
 #include <WiFiManager.h>          //https://github.com/tzapu/WiFiManager
 #include <Ticker.h>
 
-
-void wifiTick() {
-  //toggle state
-  int state = digitalRead(LED_BUILTIN);  // get the current state of GPIO1 pin
-  digitalWrite(LED_BUILTIN, !state);     // set pin to the opposite state
-}
-
 void MyWifi::setup() {
   //set led pin as output
   pinMode(LED_BUILTIN, OUTPUT);
   // start ticker with 0.5 because we start in AP mode and try to connect
   Ticker ticker;
-  ticker.attach(0.6, wifiTick);
+  ticker.attach(0.6, []() {
+    //toggle state
+    int state = digitalRead(LED_BUILTIN);  // get the current state of GPIO1 pin
+    digitalWrite(LED_BUILTIN, !state);     // set pin to the opposite state
+  });
 
 
   WiFiManager wifiManager;

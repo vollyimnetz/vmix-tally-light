@@ -5,3 +5,4 @@
 .vscode/ipch
 
 **/settings.h
+private_config.ini

@@ -2,7 +2,8 @@
 
 ## Prepare the Wemos D1 Mini
 * Checkout/Download from git repository.
-* copy `src/settings.example.h` and store as `src/settings.h`
+* copy `src/settings.example.h` and store as `src/settings.h`. Make adjustments in the file to match your board configuration.
+* copy `private_config.ini.example` and store as `private_config.ini`. Make adjustments in the file to match your build configuration.
 * Use Platform.io to compile the project.
 * Upload the webconfig to flash-memory (see below) to wemos d1 mini
 * Upload the compiled project to wemos d1 mini

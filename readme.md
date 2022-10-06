@@ -1,3 +1,7 @@
+# A vmix tally light system based on esp8266 (wemos d1 mini)
+Vmix provides a tally light system to display which camera is currently live, and which is in preview mode. This small project contains the code for an esp8266 (wemos d1 mini) which has an LED strip with 5 LEDs on it. 
+There is also code for an fake tally server that emulates a vmix tally light setup.
+
 # Installation
 
 ## Prepare the Wemos D1 Mini
